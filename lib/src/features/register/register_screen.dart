@@ -9,10 +9,10 @@ import '../../../constants/sizes.dart';
 import '../../../constants/text_strings.dart';
 
 
-import 'login_form_widget.dart';
+import 'register_form_widget.dart';
 
-class LoginScreen extends StatelessWidget {
-   LoginScreen({super.key});
+class RegisterScreen extends StatelessWidget {
+   RegisterScreen({super.key});
 
 
 
@@ -36,7 +36,7 @@ class LoginScreen extends StatelessWidget {
                   Text('Login to experience hassle-free appointments', style: TextStyle(fontFamily: 'PoppinsMedium', fontSize: 16, ),),
             
                   // section 2
-                  LoginForm(),
+                  RegisterForm(),
             
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,

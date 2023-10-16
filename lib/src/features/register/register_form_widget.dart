@@ -5,8 +5,8 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:todo_nodejs/main.dart';
 import '../../../constants/colors.dart';
 
-class LoginForm extends StatelessWidget {
-  LoginForm({super.key});
+class RegisterForm extends StatelessWidget {
+  RegisterForm({super.key});
 
   // controllers to take user input into a string and check w the database
   final TextEditingController _emailController = TextEditingController();
