@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_nodejs/main.dart';
+import 'package:todo_nodejs/src/features/home/home.dart';
 import '../../../constants/colors.dart';
-import 'package:http/http.dart' as http; 
+import 'package:http/http.dart' as http;
 import 'package:todo_nodejs/config/config.dart';
-
 
 class LoginForm extends StatelessWidget {
   LoginForm({super.key});
@@ -15,8 +17,44 @@ class LoginForm extends StatelessWidget {
   // controllers to take user input into a string and check w the database
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isNotValidate = false;
+
+  // creating shared preferences for login
+  late SharedPreferences preferences;
+  
+  
 
   bool showSpinner = false;
+
+  void loginUser() async{
+    // check if user has added data
+    if(_emailController.text.isNotEmpty && _passwordController.text.isNotEmpty){
+
+      // creating an object of registration body
+      var regBody = {
+        //json format
+        "email":_emailController.text,
+        "password":_passwordController.text
+      };
+
+      // http [post] request sent to api
+      var response = await http.post(Uri.parse(registrationUrl),
+      headers: {"Content-type":"application/json"},
+      body: jsonEncode(regBody)
+      );
+
+      //getting the response by the server
+      var jsonResponse = jsonDecode(response.body);
+
+      if(jsonResponse['status']){
+        //here i want to navigate the user to LoginScreen() please write the code for me 
+        Get.to(HomeScreen());
+      }else{
+        print("Something went wrong");
+      };
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +70,6 @@ class LoginForm extends StatelessWidget {
               controller: _emailController,
               onFieldSubmitted: (value) {
                 // i want to add focus on password field after user enters email
-               
               },
               decoration: InputDecoration(
                   prefixIcon: Icon(
@@ -77,10 +114,7 @@ class LoginForm extends StatelessWidget {
             Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
-                    onPressed: () {
-                     
-                    },
-                    child: Text('Forgot password ?'))),
+                    onPressed: () {}, child: Text('Forgot password ?'))),
             Padding(
               padding: EdgeInsets.only(top: 5, bottom: 20, left: 20, right: 20),
               child: SizedBox(
@@ -91,7 +125,7 @@ class LoginForm extends StatelessWidget {
                         tSecondaryColor), // Change the button color here
                   ),
                   onPressed: () async {
-                    
+                    loginUser();
                   },
                   child: Text(
                     'Login'.toUpperCase(),

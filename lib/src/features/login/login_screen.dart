@@ -32,6 +32,7 @@ class LoginScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // section 1
+                  
                   Center(child: Image(image: AssetImage(tLoginScreenImage), height: size.height*0.3,)),
                   Text('Welcome back!', style: TextStyle(fontFamily: 'PoppinsBold', fontSize: 22, ),),
                   Text('Login to experience hassle-free appointments', style: TextStyle(fontFamily: 'PoppinsMedium', fontSize: 16, ),),
