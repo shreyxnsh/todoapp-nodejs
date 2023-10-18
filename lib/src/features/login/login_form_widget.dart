@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -9,39 +8,15 @@ import '../../../constants/colors.dart';
 import 'package:http/http.dart' as http; 
 import 'package:todo_nodejs/config/config.dart';
 
-class RegisterForm extends StatelessWidget {
-  RegisterForm({super.key});
+
+class LoginForm extends StatelessWidget {
+  LoginForm({super.key});
 
   // controllers to take user input into a string and check w the database
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
   bool showSpinner = false;
-  bool isNotValidate = false;
-
-  void registerUser() async{
-    // check if user has added data
-    if(_emailController.text.isNotEmpty && _passwordController.text.isNotEmpty){
-
-      // creating an object of registration body
-      var regBody = {
-        //json format
-        "email":_emailController.text,
-        "password":_passwordController.text
-      };
-
-      // http [post] request sent to api
-      var response = await http.post(Uri.parse(registrationUrl),
-      headers: {"Content-type":"application/json"},
-      body: jsonEncode(regBody)
-      );
-
-      var jsonResponse = jsonDecode(response.body);
-
-      print(jsonResponse['status']);
-    }else{
-      isNotValidate = true;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +91,7 @@ class RegisterForm extends StatelessWidget {
                         tSecondaryColor), // Change the button color here
                   ),
                   onPressed: () async {
-                    registerUser();
+                    
                   },
                   child: Text(
                     'Login'.toUpperCase(),
