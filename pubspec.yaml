@@ -38,6 +38,7 @@ dependencies:
   smooth_page_indicator: ^1.0.0+2
   line_awesome_flutter: ^2.0.0
   intl: ^0.17.0
+  http:
 
 
   # The following adds the Cupertino Icons font to your application.
