@@ -4,7 +4,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:get/get.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:todo_nodejs/main.dart';
+import 'package:todo_nodejs/src/features/login/login_screen.dart';
 import '../../../constants/colors.dart';
 import 'package:http/http.dart' as http; 
 import 'package:todo_nodejs/config/config.dart';
@@ -37,7 +40,12 @@ class RegisterForm extends StatelessWidget {
 
       var jsonResponse = jsonDecode(response.body);
 
-      print(jsonResponse['status']);
+      if(jsonResponse['status']){
+        //here i want to navigate the user to LoginScreen() please write the code for me 
+        Get.to(LoginScreen());
+      }else{
+        print("Something went wrong");
+      };
     }else{
       isNotValidate = true;
     }
@@ -117,9 +125,10 @@ class RegisterForm extends StatelessWidget {
                   ),
                   onPressed: () async {
                     registerUser();
+                    
                   },
                   child: Text(
-                    'Login'.toUpperCase(),
+                    'Register'.toUpperCase(),
                     style: TextStyle(fontFamily: 'PoppinsMedium', fontSize: 14),
                   ),
                 ),
