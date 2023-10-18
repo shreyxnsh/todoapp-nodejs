@@ -38,7 +38,10 @@ dependencies:
   smooth_page_indicator: ^1.0.0+2
   line_awesome_flutter: ^2.0.0
   intl: ^0.17.0
+  # dependencies for api integration
   http:
+  shared_preferences: 
+  jwt_decoder:
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -87,17 +90,22 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+  fonts:
+    - family: PoppinsBold
+      fonts:
+        - asset: assets/fonts/Poppins-Bold.ttf
+
+    - family: PoppinsExtraBold
+      fonts:
+        - asset: assets/fonts/Poppins-ExtraBold.ttf
+
+    - family: PoppinsLight
+      fonts:
+        - asset: assets/fonts/Poppins-Light.ttf
+
+    - family: PoppinsMedium
+      fonts:
+        - asset: assets/fonts/Poppins-Medium.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
