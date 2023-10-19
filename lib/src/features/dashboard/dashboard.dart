@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todo_nodejs/src/features/login/login_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
 
@@ -31,7 +33,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(email)
+          Text(email),
+          ElevatedButton(
+  onPressed: () async {
+    // Clear the token from SharedPreferences
+    final preferences = await SharedPreferences.getInstance();
+    preferences.remove('token');
+
+    // Navigate back to the login screen
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => LoginScreen()),
+    );
+  },
+  child: Text("Logout"),
+)
         ],
       ),
     );
