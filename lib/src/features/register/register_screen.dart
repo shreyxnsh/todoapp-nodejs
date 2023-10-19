@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:todo_nodejs/src/features/login/login_screen.dart';
 
 import '../../../constants/colors.dart';
 import '../../../constants/image_strings.dart';
@@ -32,8 +33,8 @@ class RegisterScreen extends StatelessWidget {
                 children: [
                   // section 1
                   Center(child: Image(image: AssetImage(tLoginScreenImage), height: size.height*0.3,)),
-                  Text('Welcome back!', style: TextStyle(fontFamily: 'PoppinsBold', fontSize: 22, ),),
-                  Text('Login to experience hassle-free appointments', style: TextStyle(fontFamily: 'PoppinsMedium', fontSize: 16, ),),
+                  Text('Hey There!', style: TextStyle(fontFamily: 'PoppinsBold', fontSize: 22, ),),
+                  Text('Register to get into the future!', style: TextStyle(fontFamily: 'PoppinsMedium', fontSize: 16, ),),
             
                   // section 2
                   RegisterForm(),
@@ -52,6 +53,48 @@ class RegisterScreen extends StatelessWidget {
                           onPressed: (){}, label: Text('Sign-In with google'.toUpperCase(), style: TextStyle(fontFamily: 'PoppinsMedium', fontSize: 13),),
                       ),
                       ),
+                      TextButton(
+                        onPressed: (){
+                        //   Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) =>  LoginScreen()),
+                        // );
+
+                        Navigator.push(
+                          context,
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) {
+                  return LoginScreen();
+                },
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  var begin = Offset(-1.0, 0.0);
+                  var end = Offset.zero;
+                  var tween = Tween(begin: begin, end: end);
+                  var offsetAnimation = animation.drive(tween);
+                  return SlideTransition(
+                    position: offsetAnimation,
+                    child: child,
+                  );
+                    },
+                    transitionDuration: Duration(milliseconds: 200),
+              ),
+                
+                        );
+              
+                        },  
+                      child: const Text.rich(
+                        TextSpan(
+                          text: "Already have an account?",style: TextStyle(fontFamily: 'PoppinsMedium', color: tSecondaryColor),
+                          children: [
+                            TextSpan(text: ' Login',
+                            style: TextStyle(fontFamily: 'PoppinsMedium', color: Colors.blue))
+                          ]
+                        )
+                        
+                        )
+                        )
                     
                     ],
                   )

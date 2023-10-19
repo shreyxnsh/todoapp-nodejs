@@ -113,6 +113,7 @@ class RegisterForm extends StatelessWidget {
                      
                     },
                     child: Text('Forgot password ?'))),
+      
             Padding(
               padding: EdgeInsets.only(top: 5, bottom: 20, left: 20, right: 20),
               child: SizedBox(
