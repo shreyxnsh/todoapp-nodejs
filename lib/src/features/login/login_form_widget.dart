@@ -6,25 +6,41 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_nodejs/main.dart';
-import 'package:todo_nodejs/src/features/home/home.dart';
+import 'package:todo_nodejs/src/features/dashboard/dashboard.dart';
 import '../../../constants/colors.dart';
 import 'package:http/http.dart' as http;
 import 'package:todo_nodejs/config/config.dart';
 
-class LoginForm extends StatelessWidget {
+class LoginForm extends StatefulWidget {
   LoginForm({super.key});
 
+  @override
+  State<LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
   // controllers to take user input into a string and check w the database
   final TextEditingController _emailController = TextEditingController();
+
   final TextEditingController _passwordController = TextEditingController();
+
   bool _isNotValidate = false;
 
   // creating shared preferences for login
   late SharedPreferences preferences;
-  
-  
 
   bool showSpinner = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initSharedPref();
+  }
+
+  void initSharedPref() async{
+    preferences = await SharedPreferences.getInstance();
+  }
 
   void loginUser() async{
     // check if user has added data
@@ -38,7 +54,7 @@ class LoginForm extends StatelessWidget {
       };
 
       // http [post] request sent to api
-      var response = await http.post(Uri.parse(registrationUrl),
+      var response = await http.post(Uri.parse(loginUrl),
       headers: {"Content-type":"application/json"},
       body: jsonEncode(regBody)
       );
@@ -47,8 +63,13 @@ class LoginForm extends StatelessWidget {
       var jsonResponse = jsonDecode(response.body);
 
       if(jsonResponse['status']){
-        //here i want to navigate the user to LoginScreen() please write the code for me 
-        Get.to(HomeScreen());
+        
+        var myToken = jsonResponse['token'];
+        preferences.setString('token', myToken);
+        
+        // passing token data to dashboard screen
+        Get.to(DashboardScreen(token: myToken,));
+
       }else{
         print("Something went wrong");
       };
