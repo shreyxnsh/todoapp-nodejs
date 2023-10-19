@@ -41,7 +41,6 @@ class RegisterForm extends StatelessWidget {
       var jsonResponse = jsonDecode(response.body);
 
       if(jsonResponse['status']){
-        //here i want to navigate the user to LoginScreen() please write the code for me 
         Get.to(LoginScreen());
       }else{
         print("Something went wrong");
