@@ -3,15 +3,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:todo_nodejs/main.dart';
 import 'package:todo_nodejs/src/features/login/login_screen.dart';
 import '../../../constants/colors.dart';
 import 'package:http/http.dart' as http; 
 import 'package:todo_nodejs/config/config.dart';
 
+// ignore: must_be_immutable
 class RegisterForm extends StatelessWidget {
   RegisterForm({super.key});
 

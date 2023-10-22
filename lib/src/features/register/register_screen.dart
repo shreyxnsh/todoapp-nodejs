@@ -1,13 +1,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:todo_nodejs/src/features/login/login_screen.dart';
 
 import '../../../constants/colors.dart';
 import '../../../constants/image_strings.dart';
 import '../../../constants/sizes.dart';
-import '../../../constants/text_strings.dart';
 
 
 import 'register_form_widget.dart';
