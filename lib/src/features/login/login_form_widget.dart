@@ -1,13 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:todo_nodejs/main.dart';
 import 'package:todo_nodejs/src/features/dashboard/dashboard.dart';
-import 'package:todo_nodejs/src/features/login/login_screen.dart';
 import '../../../constants/colors.dart';
 import 'package:http/http.dart' as http;
 import 'package:todo_nodejs/config/config.dart';
@@ -25,7 +21,6 @@ class _LoginFormState extends State<LoginForm> {
 
   final TextEditingController _passwordController = TextEditingController();
 
-  bool _isNotValidate = false;
 
   // creating shared preferences for login
   late SharedPreferences preferences;
@@ -69,7 +64,7 @@ class _LoginFormState extends State<LoginForm> {
         preferences.setString('token', myToken);
         
         // passing token data to dashboard screen
-        Get.to(DashboardScreen(token: myToken,));
+        Get.to(()=> (DashboardScreen(token: myToken,)));
 
       }else{
         print("Something went wrong");
