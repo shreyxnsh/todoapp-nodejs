@@ -1,11 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_nodejs/config/config.dart';
-import 'package:todo_nodejs/src/features/login/login_screen.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,7 +16,6 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  
   late String userId;
   TextEditingController _todoTitle = TextEditingController();
   TextEditingController _todoDesc = TextEditingController();
@@ -33,61 +29,133 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     // getting the user id of user from db by variable _id from tokenData
     userId = jwtDecodedToken['_id'];
+
+    getTodoList(userId);
   }
 
   // this function will send the http request to the backend server and save a todo for the user
-  void addTodo() async{
+  void addTodo() async {
     // check if user has added data
-    if(_todoTitle.text.isNotEmpty && _todoDesc.text.isNotEmpty){
-
+    if (_todoTitle.text.isNotEmpty && _todoDesc.text.isNotEmpty) {
       // creating an object of todo creation api body
       var regBody = {
         //json format
         "userId": userId,
-        "title":_todoTitle.text,
-        "desc":_todoDesc.text
+        "title": _todoTitle.text,
+        "desc": _todoDesc.text
       };
 
       // http [post] request sent to api
       var response = await http.post(Uri.parse(addTodoUrl),
-      headers: {"Content-type":"application/json"},
-      body: jsonEncode(regBody)
-      );
+          headers: {"Content-type": "application/json"},
+          body: jsonEncode(regBody));
 
       var jsonResponse = jsonDecode(response.body);
       print(jsonResponse['status']);
 
-      if(jsonResponse['status']){
+      if (jsonResponse['status']) {
         _todoTitle.clear();
         _todoDesc.clear();
         Navigator.pop(context);
-      }else{
+      } else {
         print("Something went wrong");
-      };
+      }
+      ;
     }
   }
   
+  //   void getTodoList(userId) async {
+
+  //   print("User ID being sent to API: $userId"); 
+  
+  //   var regBody = {
+  //     "userId":userId
+  //   };
+  //   var response = await http.post(Uri.parse(getTodoUrl),
+  //       headers: {"Content-Type":"application/json"},
+  //       body: jsonEncode(regBody)
+  //   );
+
+  //   print("Response status code: ${response.statusCode}");
+  //   print("Response body: ${response.body}");
+  //   var jsonResponse = await jsonDecode(response.body);
+  //   items = jsonResponse['success'];
+  //   setState(() {
+  //   });
+  // }
+
+
+void getTodoList(userId) async {
+  try {
+    print("User ID being sent to API: $userId"); 
+    var response = await http.get(
+      Uri.parse('$getTodoUrl?userId=$userId'), // Include userId as a query parameter
+      headers: {"Content-Type": "application/json"},
+    );
+
+    print("Response status code: ${response.statusCode}");
+    print("Response body: ${response.body}");
+
+     if (response.statusCode == 200) {
+      try {
+        var jsonResponse = jsonDecode(response.body);
+        if (jsonResponse['success'] != null) {
+          setState(() {
+            // Make sure to cast the "success" field as a List
+            items = List.from(jsonResponse['success']);
+          });
+        } else {
+          print("No data found.");
+        }
+      } catch (e) {
+        print("Error decoding JSON response: $e");
+      }
+    } else {
+      print("Request failed with status: ${response.statusCode}");
+      print("Response body: ${response.body}");
+    }
+  } catch (e) {
+    print("Error making the API request: $e");
+  }
+
+}
+
+
+  void deleteItem(id) async{
+    var regBody = {
+      "id":id
+    };
+    var response = await http.post(Uri.parse(deleteTodoUrl),
+        headers: {"Content-Type":"application/json"},
+        body: jsonEncode(regBody)
+    );
+    var jsonResponse = jsonDecode(response.body);
+    if(jsonResponse['status']){
+      getTodoList(userId);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ElevatedButton(
-            onPressed: () async {
-              // Clear the token from SharedPreferences
-              final preferences = await SharedPreferences.getInstance();
-              preferences.remove('token');
-
-              // Navigate back to the login screen
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => LoginScreen()),
-              );
-            },
-            child: Text("Logout"),
-          ),
-          Expanded(
+      backgroundColor: Colors.lightBlueAccent,
+       body: Column(
+         crossAxisAlignment: CrossAxisAlignment.start,
+         children: [
+           Container(
+             padding: EdgeInsets.only(top: 60.0,left: 30.0,right: 30.0,bottom: 30.0),
+             child: Column(
+               crossAxisAlignment: CrossAxisAlignment.start,
+               children: [
+                 CircleAvatar(child: Icon(Icons.list,size: 30.0,),backgroundColor: Colors.white,radius: 30.0,),
+                 SizedBox(height: 10.0),
+                 Text('ToDo with NodeJS + Mongodb',style: TextStyle(fontSize: 30.0,fontWeight: FontWeight.w700),),
+                 SizedBox(height: 8.0),
+                 Text('5 Task',style: TextStyle(fontSize: 20),),
+               ],
+             ),
+           ),
+           Expanded(
              child: Container(
                decoration: BoxDecoration(
                    color: Colors.white,
@@ -111,7 +179,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                label: 'Delete',
                                onPressed: (BuildContext context) {
                                  print('${items![index]['_id']}');
-                                //  deleteItem('${items![index]['_id']}');
+                                 deleteItem('${items![index]['_id']}');
                                },
                              ),
                            ],
@@ -140,8 +208,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
-
-
   Future<void> _displayTextInputDialog(BuildContext context) async {
     return showDialog(
         context: context,
@@ -161,9 +227,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)))),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
                 TextField(
                   controller: _todoDesc,
                   keyboardType: TextInputType.text,
@@ -181,7 +244,5 @@ class _DashboardScreenState extends State<DashboardScreen> {
             )
           );
         });
-
   }
-
 }
