@@ -57,33 +57,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
         _todoTitle.clear();
         _todoDesc.clear();
         Navigator.pop(context);
+        // this function call will help in updating list
+        // as soon as new todo is added
+        getTodoList(userId);
       } else {
-        print("Something went wrong");
+        print("Something went wrong"); 
       }
       ;
     }
   }
-  
-  //   void getTodoList(userId) async {
-
-  //   print("User ID being sent to API: $userId"); 
-  
-  //   var regBody = {
-  //     "userId":userId
-  //   };
-  //   var response = await http.post(Uri.parse(getTodoUrl),
-  //       headers: {"Content-Type":"application/json"},
-  //       body: jsonEncode(regBody)
-  //   );
-
-  //   print("Response status code: ${response.statusCode}");
-  //   print("Response body: ${response.body}");
-  //   var jsonResponse = await jsonDecode(response.body);
-  //   items = jsonResponse['success'];
-  //   setState(() {
-  //   });
-  // }
-
 
 void getTodoList(userId) async {
   try {
@@ -125,7 +107,7 @@ void getTodoList(userId) async {
     var regBody = {
       "id":id
     };
-    var response = await http.post(Uri.parse(deleteTodoUrl),
+    var response = await http.delete(Uri.parse(deleteTodoUrl),
         headers: {"Content-Type":"application/json"},
         body: jsonEncode(regBody)
     );
