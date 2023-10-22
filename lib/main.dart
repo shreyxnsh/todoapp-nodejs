@@ -5,7 +5,6 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_nodejs/src/features/dashboard/dashboard.dart';
 import 'package:todo_nodejs/src/features/login/login_screen.dart';
-import 'package:todo_nodejs/src/features/register/register_screen.dart';
 import '../../../constants/colors.dart';
 
 void main() async{
