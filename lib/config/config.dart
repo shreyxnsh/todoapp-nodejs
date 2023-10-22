@@ -4,6 +4,6 @@ final registrationUrl = url + 'registration';
 final loginUrl = url + 'login';
 final addTodoUrl = url + 'createtodo';
 final getTodoUrl = url + 'getUserTodo';
-final deleteTodoUrl = url + 'deleteTodo';
+final deleteTodoUrl = url + 'deletetodo';
 
 
